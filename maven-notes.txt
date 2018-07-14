@@ -1,0 +1,243 @@
+#
+# installing maven
+#
+
+Download the maven Binary zip archive from https://maven.apache.org/download.cgi
+Extract into a folder e.g. c:\dev\tools
+In system properties add the environment variable MAVEN_HOME 
+In system properties add add MAVEN_HOME to the PATH
+Save and close
+in cmd or bash run: mvn -version
+You should get an output such as :
+
+Apache Maven 3.5.0 (ff8f5e7444045639af65f6095c62210b5713f426; 2017-04-04T03:39:06+08:00)
+Maven home: D:\Installers\apache-maven-3.5.0\bin\..
+Java version: 1.8.0_65, vendor: Oracle Corporation
+Java home: C:\PROGRA~2\Java\jdk1.8.0_65\jre
+Default locale: en_AU, platform encoding: Cp1252
+OS name: "windows 8.1", version: "6.3", arch: "x86", family: "windows"
+
+
+#
+# POM.XML structure
+#
+
+Divided into 4 parts:
+* Project Information
+-> groupid			e.g. au.com.kpesolutions		this is our company
+-> artifactid		e.g. HelloWorld				this is the name of the project	
+-> version			e.g. 1.0-SNAPSHOT or RELEASE
+---> Development starts off as a SNAPSHOT e.g. app-1.0-SNAPSHOT.jar
+---> Production builds are a RELEASE e.g. app-1.0.jar // note RELEASE doesn't have to be shown for actual production build
+-> packaging		e.g. jar					how do we want to compile and distribute the application
+
+* Dependencies
+-> dependencies used in the application
+-> minimum 3 things required per dependency { groupid, artifactid, version }
+-> Non-default Dependency repository example: 
+	<repositories>
+		<repository>
+			<id>spring-snapshot</id>
+			<name></name>
+			<url>http://repo.springsource.org/libs-snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
+
+
+* Build
+-> Plugins
+-> Directory Structure
+-> Example: 	<build><finalName>Hello-World-Release</finalName></build>
+-> Output when running mvn clean package: Built jar file will be Hello-World-Release.jar
+
+* Repositories
+-> where we download artifacts from
+
+
+#
+# project folder structure
+#
+
+pom.xml
+target		// this is where everything get compiled to
+src
+  main
+    java	// actual source code of application	
+src
+  test
+    java	// unit tests e.g. cucumber, testng, nunit	
+
+	
+#
+# example pom.xml file
+#
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.kpe.java</groupId>
+	<artifactId>HelloWorld</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+</project>
+
+
+#
+# running maven from command line
+#
+
+From command prompt navigate to the folder containing pom.xml
+
+Run the command: mvn clean
+What it does: Deletes the target directory and any generated resources
+
+You should get output such as:
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building HelloWorld 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ HelloWorld ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 0.368 s
+[INFO] Finished at: 2018-07-14T20:15:17+08:00
+[INFO] Final Memory: 5M/15M
+[INFO] ------------------------------------------------------------------------
+
+Run the command: mvn compile
+What it does: Compiles all source code, generates any files, copies resources to our classes directory
+
+You should get output such as:
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building HelloWorld 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ HelloWorld ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory D:\github\cucumber-java\cucumber-book\cucumber-for-java\src\main\resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ HelloWorld ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 1 source file to D:\github\cucumber-java\cucumber-book\cucumber-for-java\target\classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 2.851 s
+[INFO] Finished at: 2018-07-14T20:18:19+08:00
+[INFO] Final Memory: 10M/27M
+[INFO] ------------------------------------------------------------------------
+
+Run the command: mvn package
+What it does: Runs the compile command first, runs any tests, packages the app based off of its packaging type
+
+NOTE: a jar file will be built as that is what we configured in the pom.xml file with <packaging>jar</packaging>
+In the output see the last line:
+[INFO] Building jar: D:\github\cucumber-java\cucumber-book\cucumber-for-java\target\HelloWorld-1.0-SNAPSHOT.jar
+
+You should get output such as:
+
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building HelloWorld 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ HelloWorld ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory D:\github\cucumber-java\cucumber-book\cucumber-for-java\src\main\resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ HelloWorld ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO]
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ HelloWorld ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory D:\github\cucumber-java\cucumber-book\cucumber-for-java\src\test\resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ HelloWorld ---
+[INFO] No sources to compile
+[INFO]
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ HelloWorld ---
+[INFO] No tests to run.
+[INFO]
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ HelloWorld ---
+[INFO] Building jar: D:\github\cucumber-java\cucumber-book\cucumber-for-java\target\HelloWorld-1.0-SNAPSHOT.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1.431 s
+[INFO] Finished at: 2018-07-14T20:25:01+08:00
+[INFO] Final Memory: 7M/19M
+[INFO] ------------------------------------------------------------------------
+
+Run the command: mvn install
+What it does: Runs the package command and then installs it in your local repo
+Where does maven save downloaded files: c:\users\{username}\.m2\repository
+Example: C:\users\LocalUser\.m2\repository
+
+Run the command: mvn deploy
+What it does: Runs the install command and then deploys it to your corporate repo
+
+
+#
+# Running our build application from command line
+#
+cd target\classes
+java HelloWorld
+
+You should see output:
+Hello world
+
+
+#
+# Maven Plugins
+#
+
+https://search.maven.org/
+
+If you open the pom viewer and look in the Effective POM tab you can see all that is going on for the project
+
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>Central Repository</name>
+      <url>https://repo.maven.apache.org/maven2</url>
+    </repository>
+  </repositories>
+  
+	<build>
+		<finalName>Hello-World-Debug</finalName>
+		
+		<plugins>
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-compiler-plugin</artifactId>
+			    <version>3.7.0</version>
+			    <configuration>
+			    	<source>1.8</source>
+			    	<target>1.8</target>
+			    </configuration>
+   			</plugin>
+		</plugins>
+		
+	</build>
+
+
+
+	
