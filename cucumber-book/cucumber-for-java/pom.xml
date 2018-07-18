@@ -9,11 +9,39 @@
 	<packaging>jar</packaging>
 	
 	<dependencies>
+	
 		<dependency>
-		    <groupId>commons-lang</groupId>
-		    <artifactId>commons-lang</artifactId>
-		    <version>20030203.000129</version>
-		</dependency>	
+		    <groupId>io.cucumber</groupId>
+		    <artifactId>cucumber-java</artifactId>
+		    <version>3.0.2</version>
+		</dependency>
+		
+		<!-- 
+		<dependency>
+		    <groupId>io.cucumber</groupId>
+		    <artifactId>cucumber-core</artifactId>
+		    <version>3.0.2</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>io.cucumber</groupId>
+		    <artifactId>cucumber-jvm-deps</artifactId>
+		    <version>1.0.6</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>io.cucumber</groupId>
+		    <artifactId>gherkin</artifactId>
+		    <version>5.1.0</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>io.cucumber</groupId>
+		    <artifactId>cucumber-testng</artifactId>
+		    <version>3.0.2</version>
+		</dependency>
+		 -->
+
 	</dependencies>
 	
 	<build>
