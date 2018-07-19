@@ -24,3 +24,5 @@ hs_err_pid*
 cucumber-book/.metadata/
 cucumber-book/.recommenders/
 cucumber-book/cucumber-for-java/target/
+cucumber-maven/.metadata/
+cucumber-maven/.recommenders/
